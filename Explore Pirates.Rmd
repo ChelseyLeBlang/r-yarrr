@@ -47,8 +47,20 @@ pirate_age_sex <- pirate_sex_tidy %>%
   summarise(mean=mean(age))
 ```
 ```{r plotting}
-ggplot(data=pirates, aes(x=height, y=weight))+geom_point(color="purple",pch=18
-                                                      )
+ggplot(data=pirates, aes(x=height, y=weight))+geom_point(color="orchid",pch=18)+theme_light()+labs(x="Height in", y="Weight lbs", title="Pirate Height and Weight")
+
+model <- lm(formula=height~weight, data=pirates)
+
+abline(model)
+
+```
+```{r}
+ggplot(data=pirates, aes(x=height, y=weight, main=eq))+geom_point(color="orchid",pch=18)+theme_light()+labs(x="Height in", y="Weight lbs", title="Pirate Height and Weight")+geom_smooth(method='lm',formula=y~x, color="yellow")
+```
+```{r}
+pirateplot(formula = age ~ sword.type, 
+           data = pirates,
+           main = "Pirateplot of ages by favorite sword")
 ```
 
 
