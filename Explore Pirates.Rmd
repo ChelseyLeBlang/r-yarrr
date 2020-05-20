@@ -45,22 +45,37 @@ aggregate(formula= age~sex, data=pirates, FUN=mean)
 ```{r age_sex_tidy}
 pirate_age_sex <- pirate_sex_tidy %>%
   summarise(mean=mean(age))
+library(kableExtra)
+pirate_age_sex%>%
+  kable()%>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 ```{r plotting}
 ggplot(data=pirates, aes(x=height, y=weight))+geom_point(color="orchid",pch=18)+theme_light()+labs(x="Height in", y="Weight lbs", title="Pirate Height and Weight")
 
 model <- lm(formula=height~weight, data=pirates)
 
-abline(model)
 
 ```
-```{r}
-ggplot(data=pirates, aes(x=height, y=weight, main=eq))+geom_point(color="orchid",pch=18)+theme_light()+labs(x="Height in", y="Weight lbs", title="Pirate Height and Weight")+geom_smooth(method='lm',formula=y~x, color="yellow")
+```{r regression}
+ggplot(data=pirates, aes(x=height, y=weight))+geom_point(color="skyblue", pch=18)+theme_light()+labs(x="Height in", y="Weight lbs", title="Pirate Height and Weight")+geom_smooth(method='lm',formula=y~x, color="yellow")
 ```
-```{r}
+```{r pirate plot}
 pirateplot(formula = age ~ sword.type, 
            data = pirates,
            main = "Pirateplot of ages by favorite sword")
 ```
+```{r pirate plot 2}
+pirateplot(formula = height ~ sex,               # Plot weight as a function of sex
+           data = pirates,                       
+           main = "Pirateplot of height by sex",
+           pal = "pony",                         # Use the info color palette
+           theme = 3)                            # Use theme 3
 
-
+```
+```{r pony pal}
+# Show me the pony palette!
+piratepal(palette = "pony",
+          plot.result = TRUE,   # Plot the result
+          trans = .1)           # Slightly transparent
+```
