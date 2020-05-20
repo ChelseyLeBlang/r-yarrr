@@ -1,0 +1,54 @@
+---
+title: "yarrr_explore"
+author: "Chelsey"
+date: "5/19/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r attach_yarrr}
+library(yarrr)
+pirateplot(formula = weight ~ Time, 
+           data = ChickWeight,
+           pal = "xmen")
+```
+```{r attach_tidy}
+library(tidyverse)
+```
+```{r explore_data}
+head(pirates)
+names(pirates)
+view(pirates)
+```
+```{r mean}
+#What is mean pirate age
+mean(pirates$age)
+```
+```{r summary}
+summary(pirates)
+```
+```{r max}
+#Who is the tallest pirate
+max(pirates$height)
+```
+```{r sex}
+
+ pirate_sex <- table(pirates$sex)
+pirate_sex_tidy <- pirates %>%
+  group_by(sex)
+```
+```{r age sex}
+aggregate(formula= age~sex, data=pirates, FUN=mean)
+```
+```{r age_sex_tidy}
+pirate_age_sex <- pirate_sex_tidy %>%
+  summarise(mean=mean(age))
+```
+```{r plotting}
+ggplot(data=pirates, aes(x=height, y=weight))+geom_point(color="purple",pch=18
+                                                      )
+```
+
+
