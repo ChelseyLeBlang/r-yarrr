@@ -1,0 +1,33 @@
+---
+title: "TestingMight"
+author: "Chelsey"
+date: "5/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## **Testing My Chapter 2 R Might.**
+
+- Which (if any) of the following objects names is/are invalid?
+Answer: 3 and 7 
+
+- 2015 was a good year for pirate booty - your ship collected 100,800 gold coins. Create an object called gold.in.2015 and assign the correct value to it.
+```{r pirate booty}
+gold.in.2015 <- 100800
+```
+
+- Oops, during the last inspection we discovered that one of your pirates Skippy McGee hid 800 gold coins in his underwear. Go ahead and add those gold coins to the object gold.in.2015. Next, create an object called plank.list with the name of the pirate thief.
+```{r hidden coins}
+gold.in.2015 <- gold.in.2015+800 
+plan_list <- "Skippy Mcgee"
+```
+
+- Look at the code below. What will R return after the third line? Make a prediction, then test the code yourself.
+
+a=10
+
+
+
