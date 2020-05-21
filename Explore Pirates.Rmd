@@ -104,5 +104,7 @@ summary(tchests_model)
 
 ```
 ```{r bayesian}
-
+#install.packages("BayesFactor")
+library(BayesFactor)
+ttestBF(formula=age~headband, data=pirates)
 ```
