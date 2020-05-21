@@ -79,3 +79,30 @@ piratepal(palette = "pony",
           plot.result = TRUE,   # Plot the result
           trans = .1)           # Slightly transparent
 ```
+```{r t test}
+#T-test age by headband 
+t.test(formula=age~headband,
+      data=pirates,
+      alternative="two.sided")
+```
+```{r correlation}
+cor.test(formula=~height+weight, data=pirates)
+```
+```{r linear model}
+tat.sword.lm <- lm(formula=tattoos~sword.type, data=pirates)
+```
+```{r anova}
+anova(tat.sword.lm)
+```
+```{r anova 2}
+tats_swords_anova <- aov(tattoos~sword.type, data=pirates)
+summary(tats_swords_anova)
+```
+```{r linear regression 2}
+tchests_model<- lm(formula=tchests~age+weight+tattoos, data=pirates)
+summary(tchests_model)
+
+```
+```{r bayesian}
+
+```
