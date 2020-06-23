@@ -1,0 +1,70 @@
+---
+title: "Functions"
+author: "Chelsey"
+date: "6/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+**Arithmetic Operations**
+```{r basic math}
+a <- c(1,2,3,4,5)
+b <- c(10,20,30,40,50)
+
+a+100
+
+a+b
+
+(a+b)/10
+
+c <- c(1:10)
+
+c/100
+
+c^2
+
+c(1,2,3,4,5) + c(5,4,3,2,1)
+
+a.bsum <- a+b
+a.bdif <- a-b
+a.bprod <- a*b
+
+
+a.bsum
+a.bdif
+a.bprod
+
+##pirate bake sale example 
+
+pies <- c(3, 6, 2, 10, 4)
+cookies <- c(70, 40, 40, 200, 60)
+
+total.sold <- pies+cookies
+
+total.sold 
+
+```
+**Summary Stats**
+```{r summary stats}
+tattoos <- c(4, 50, 2, 39, 4, 20, 4, 8, 10, 100)
+
+min(tattoos)
+max(tattoos)
+mean(tattoos)
+sd(tattoos)
+
+a <- c(1:10)
+
+length(a)
+
+b <- seq(from=1,to=100, length.out=20)
+
+length(b)
+
+summary(b)
+
+```
+**Counting Stats**
+```{r counting stats}
