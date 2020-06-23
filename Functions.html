@@ -408,6 +408,139 @@ total.sold &lt;- pies+cookies
 total.sold </code></pre>
 <pre><code>## [1]  73  46  42 210  64</code></pre>
 <p><strong>Summary Stats</strong></p>
+<pre class="r"><code>tattoos &lt;- c(4, 50, 2, 39, 4, 20, 4, 8, 10, 100)
+
+min(tattoos)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>max(tattoos)</code></pre>
+<pre><code>## [1] 100</code></pre>
+<pre class="r"><code>mean(tattoos)</code></pre>
+<pre><code>## [1] 24.1</code></pre>
+<pre class="r"><code>sd(tattoos)</code></pre>
+<pre><code>## [1] 31.32074</code></pre>
+<pre class="r"><code>a &lt;- c(1:10)
+
+length(a)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>b &lt;- seq(from=1,to=100, length.out=20)
+
+length(b)</code></pre>
+<pre><code>## [1] 20</code></pre>
+<pre class="r"><code>summary(b)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   25.75   50.50   50.50   75.25  100.00</code></pre>
+<p><strong>Counting Stats</strong></p>
+<pre class="r"><code>vec &lt;- c(1, 1, 1, 5, 1, 1, 10, 10, 10)
+gender &lt;- c(&quot;M&quot;, &quot;M&quot;, &quot;F&quot;, &quot;F&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;, &quot;M&quot;, &quot;F&quot;)
+
+unique(vec)</code></pre>
+<pre><code>## [1]  1  5 10</code></pre>
+<pre class="r"><code>table (vec)</code></pre>
+<pre><code>## vec
+##  1  5 10 
+##  5  1  3</code></pre>
+<pre class="r"><code>table(gender)</code></pre>
+<pre><code>## gender
+## F M 
+## 5 4</code></pre>
+<pre class="r"><code>table(vec)/sum(table(vec))</code></pre>
+<pre><code>## vec
+##         1         5        10 
+## 0.5555556 0.1111111 0.3333333</code></pre>
+<p><strong>NA Values</strong></p>
+<pre class="r"><code>a &lt;- c(1, 5, NA, 2, 10)
+mean(a)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(a,na.rm=TRUE)</code></pre>
+<pre><code>## [1] 4.5</code></pre>
+<p><strong>Zscores</strong></p>
+<pre class="r"><code>a &lt;- c(5, 3, 7, 5, 5, 3, 4)
+
+mean(a)</code></pre>
+<pre><code>## [1] 4.571429</code></pre>
+<pre class="r"><code>sd(a)</code></pre>
+<pre><code>## [1] 1.397276</code></pre>
+<pre class="r"><code>a.zscore &lt;- (a-mean(a))/sd(a)
+
+a.zscore</code></pre>
+<pre><code>## [1]  0.3067192 -1.1246370  1.7380754  0.3067192  0.3067192 -1.1246370 -0.4089589</code></pre>
+<pre class="r"><code>mean(a.zscore)</code></pre>
+<pre><code>## [1] 1.982309e-16</code></pre>
+<pre class="r"><code>##competition example
+
+grogg &lt;- c(12, 8, 1, 6, 2)
+climbing &lt;- c(100, 520, 430, 200, 700)
+
+
+grogg.z &lt;- (grogg-mean(grogg))/sd(grogg)
+climbing.z &lt;- (climbing-mean(climbing))/sd(climbing)
+
+grogg.z</code></pre>
+<pre><code>## [1]  1.37948189  0.48949358 -1.06798598  0.04449942 -0.84548890</code></pre>
+<pre class="r"><code>climbing.z</code></pre>
+<pre><code>## [1] -1.1969581  0.5365674  0.1650977 -0.7842139  1.2795069</code></pre>
+<pre class="r"><code>##best combined performance?
+
+best.z &lt;- (grogg.z+climbing.z)/2
+
+best.z</code></pre>
+<pre><code>## [1]  0.0912619  0.5130305 -0.4514442 -0.3698573  0.2170090</code></pre>
+<p><strong>Test</strong></p>
+<pre class="r"><code>#1
+
+x &lt;- 1:10
+
+sqrt(x)</code></pre>
+<pre><code>##  [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
+##  [9] 3.000000 3.162278</code></pre>
+<pre class="r"><code>#2 
+
+sober&lt;- c(2,0,3,1,0,3,5)
+
+drunk &lt;- c(0,0,1,0,1,2,2)
+
+mean(sober)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>mean(drunk)</code></pre>
+<pre><code>## [1] 0.8571429</code></pre>
+<pre class="r"><code>#3
+
+difference &lt;- drunk-sober
+
+difference</code></pre>
+<pre><code>## [1] -2  0 -2 -1  1 -1 -3</code></pre>
+<pre class="r"><code>mean(difference)</code></pre>
+<pre><code>## [1] -1.142857</code></pre>
+<pre class="r"><code>median (difference)</code></pre>
+<pre><code>## [1] -1</code></pre>
+<pre class="r"><code>sd(difference)</code></pre>
+<pre><code>## [1] 1.345185</code></pre>
+<pre class="r"><code>#4 Rice
+
+rice &lt;- 2^ (1:63)
+
+head(rice)</code></pre>
+<pre><code>## [1]  2  4  8 16 32 64</code></pre>
+<pre class="r"><code>rice.total &lt;- sum(rice)
+
+sum(rice)</code></pre>
+<pre><code>## [1] 1.844674e+19</code></pre>
+<pre class="r"><code>rice.kg &lt;- sum(rice)* (1/6400)
+
+rice.kg</code></pre>
+<pre><code>## [1] 2.882304e+15</code></pre>
+<pre class="r"><code>rice.cal &lt;- rice.kg*1300
+
+rice.cal</code></pre>
+<pre><code>## [1] 3.746995e+18</code></pre>
+<pre class="r"><code>people.year &lt;- rice.cal/(2250*365)
+
+people.year</code></pre>
+<pre><code>## [1] 4.562551e+12</code></pre>
+<pre class="r"><code>people.life &lt;- people.year/70
+
+people.life</code></pre>
+<pre><code>## [1] 65179297934</code></pre>
 
 
 

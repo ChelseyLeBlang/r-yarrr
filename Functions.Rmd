@@ -68,3 +68,117 @@ summary(b)
 ```
 **Counting Stats**
 ```{r counting stats}
+vec <- c(1, 1, 1, 5, 1, 1, 10, 10, 10)
+gender <- c("M", "M", "F", "F", "F", "M", "F", "M", "F")
+
+unique(vec)
+
+table (vec)
+
+table(gender)
+
+table(vec)/sum(table(vec))
+
+```
+**NA Values**
+```{r NA values}
+a <- c(1, 5, NA, 2, 10)
+mean(a)
+
+mean(a,na.rm=TRUE)
+
+```
+**Zscores**
+```{r zscores}
+a <- c(5, 3, 7, 5, 5, 3, 4)
+
+mean(a)
+
+sd(a)
+
+a.zscore <- (a-mean(a))/sd(a)
+
+a.zscore
+
+mean(a.zscore)
+
+##competition example
+
+grogg <- c(12, 8, 1, 6, 2)
+climbing <- c(100, 520, 430, 200, 700)
+
+
+grogg.z <- (grogg-mean(grogg))/sd(grogg)
+climbing.z <- (climbing-mean(climbing))/sd(climbing)
+
+grogg.z
+
+climbing.z
+
+##best combined performance?
+
+best.z <- (grogg.z+climbing.z)/2
+
+best.z
+
+
+```
+
+**Test**
+
+```{r test your might}
+
+#1
+
+x <- 1:10
+
+sqrt(x)
+
+#2 
+
+sober<- c(2,0,3,1,0,3,5)
+
+drunk <- c(0,0,1,0,1,2,2)
+
+mean(sober)
+
+mean(drunk)
+
+#3
+
+difference <- drunk-sober
+
+difference
+
+mean(difference)
+median (difference)
+sd(difference)
+
+
+#4 Rice
+
+rice <- 2^ (1:63)
+
+head(rice)
+
+rice.total <- sum(rice)
+
+sum(rice)
+
+rice.kg <- sum(rice)* (1/6400)
+
+rice.kg
+
+rice.cal <- rice.kg*1300
+
+rice.cal
+
+people.year <- rice.cal/(2250*365)
+
+people.year
+
+people.life <- people.year/70
+
+people.life
+
+```
