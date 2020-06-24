@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
+# **Indexing**
 ```{r boat data}
 # Boat sale. Creating the data vectors
 boat.names <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
@@ -50,6 +50,7 @@ sum(boat.colors == "pink")
 mean(boat.ages < 100)
 ## [1] 0.6
 ```
+## **Numerical Indexing**
 ```{r numerical indexing}
 boat.names[1]
 
@@ -64,6 +65,7 @@ index<- 3:5
 boat.names[index]
 
 ```
+## **Logical Indexing**
 ```{r logical idexing}
 
 a <- c(1, 2, 3, 4, 5)
@@ -81,4 +83,139 @@ boat.prices > boat.costs
 
 boat.prices < boat.costs
 
+boat.prices [boat.ages >100]
+
+boat.prices >200 | boat.prices <100 
+
+boat.names [boat.prices >200 | boat.prices <100 ]
+
+boat.names [boat.colors == "black" | boat.prices >100]
+
+(boat.colors == "black" | boat.colors == "brown") & boat.prices <100
+
+boat.names [(boat.colors == "black" | boat.colors == "brown") & boat.prices <100]
+
+#multiple OR arguments with %n%
+
+x <- c("a", "t", "a", "b", "z")
+
+x %in% c("a","b","c","d")
+```
+```{r counts and percentages with logical indexing}
+
+x <- c(1, 2, 3, -5, -5, -5, -5, -5)
+
+x > 0
+
+sum (x >0)
+
+mean (x>0)
+
+duplicated (x)
+
+```
+```{r changing values}
+
+a <- rep(1, 10)
+
+a[1:5] <- 9
+
+a
+
+a[6:10] <- 0
+a
+
+x <- c(5, -5, 7, 4, 11, 5, -2)
+
+x [x<1] <- 1
+
+x
+
+x [x>10] <- 10
+
+x
+
+#happy survey example 
+
+happy <- c(1, 4, 2, 999, 2, 3, -2, 3, 2, 999)
+
+invalid <- (happy %in% 1:5) == FALSE
+invalid
+
+happy [invalid] <- NA
+
+happy
+
+happy[(happy %in% 1:5) == FALSE] <- NA
+
+happy
+
+mean (happy, na.rm=TRUE)
+
+```
+# ** Test your might: Movie Data** 
+```{r test your might}
+
+movie.name <- c( "whatever works", "it follows", "love and mercy", "the goonies", "jiro dreams of sushi", "there will be blood", "moon", "spice world", "serenity", "finding vivan maier")
+movie.year <- c(2009, 2015, 2015, 1985, 2012, 2007,2009, 1998, 2005, 2014)
+move.boxoffice <- c(35, 15, 15, 62, 3, 10, 321, 79, 39, 1.5)
+movie.genre <- c("comedy", "horror", "drama", "adventure", "documentary", "drama", "science fiction", "comedy", "science fiction", "documentary")
+movie.time <- c(92, 97, 120, 90, 81, 158, 97, -84, 119, 84)
+movie.rating <- c("PG13", "r", "r", "pg", "g", "r", "r", "pg13", "unrated")
+
+#name of the 10th movie 
+
+movie.name [10]
+
+#genre of the first four movies 
+
+movie.genre [1:4]
+
+#change spice world to naked gun 
+
+movie.name [movie.name == "spice world"] <- "naked gun"
+
+movie.name
+
+#movies beofre the year 1990
+
+movie.name[movie.year< 1990]
+
+#how many movies were dramas
+
+sum(movie.genre == "drama")
+
+#what percentage of movies were comedies 
+
+mean(movie.genre== "comedy")
+
+#replace time that is invalid with NA 
+
+movie.time [movie.time <0] <- NA
+
+movie.time
+
+#Average movie time 
+
+mean(movie.time, na.rm=TRUE)
+
+#What are the names of the comedy movies 
+
+movie.name[movie.genre=="comedy"]
+
+#WHat are the comedy movie box office totals 
+
+move.boxoffice [ movie.genre == "comedy"]
+
+#Movies that made less than 50 Mill and were comedies 
+
+movie.name [move.boxoffice<50 & movie.genre == "comedy"]
+
+#What was the median box office revenue for movies rated G or PG
+
+median(move.boxoffice[movie.rating== "g"| movie.rating == "pg"])
+
+#Percentage of movies that were rated R or comedies 
+
+mean(movie.rating== "r" | movie.genre == "comedy")
 ```
