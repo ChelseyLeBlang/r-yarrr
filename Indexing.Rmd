@@ -1,0 +1,84 @@
+---
+title: "Indexing"
+author: "Chelsey"
+date: "6/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r boat data}
+# Boat sale. Creating the data vectors
+boat.names <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+boat.colors <- c("black", "green", "pink", "blue", "blue", 
+                "green", "green", "yellow", "black", "black")
+boat.ages <- c(143, 53, 356, 23, 647, 24, 532, 43, 66, 86)
+boat.prices <- c(53, 87, 54, 66, 264, 32, 532, 58, 99, 132)
+boat.costs <- c(52, 80, 20, 100, 189, 12, 520, 68, 80, 100)
+```
+```{r idexing boats}
+# What was the price of the first boat?
+boat.prices[1]
+## [1] 53
+
+# What were the ages of the first 5 boats?
+boat.ages[1:5]
+## [1] 143  53 356  23 647
+
+# What were the names of the black boats?
+boat.names[boat.colors == "black"]
+## [1] "a" "i" "j"
+
+# What were the prices of either green or yellow boats?
+boat.prices[boat.colors == "green" | boat.colors == "yellow"]
+## [1]  87  32 532  58
+
+# Change the price of boat "s" to 100
+boat.prices[boat.names == "s"] <- 100
+
+# What was the median price of black boats less than 100 years old?
+median(boat.prices[boat.colors == "black" & boat.ages < 100])
+## [1] 116
+
+# How many pink boats were there?
+sum(boat.colors == "pink")
+## [1] 1
+
+# What percent of boats were older than 100 years old?
+mean(boat.ages < 100)
+## [1] 0.6
+```
+```{r numerical indexing}
+boat.names[1]
+
+boat.colors [1:5]
+
+boat.ages[seq(1,5,by=2)]
+
+boat.ages[c(1,1,1)]
+
+index<- 3:5
+
+boat.names[index]
+
+```
+```{r logical idexing}
+
+a <- c(1, 2, 3, 4, 5)
+a[c(TRUE, FALSE, TRUE, FALSE, TRUE)]
+
+boat.ages >100
+
+boat.ages == 23
+
+boat.names == "c"
+
+#comparing vectors 
+
+boat.prices > boat.costs
+
+boat.prices < boat.costs
+
+```
