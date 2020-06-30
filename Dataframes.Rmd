@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-#**Boat Sale Dataframe** 
+# **Boat Sale Dataframe** 
 ```{r boat dataframe}
 
 # Create a dataframe of boat sale data called bsale
@@ -70,7 +70,7 @@ old_black_boats <- subset(boatsale, color=="black" & age >50)
 View(old_black_boats)
 
 ```
-#**Creating Matrices and Dataframes** 
+# **Creating Matrices and Dataframes** 
 ```{r creating dfs}
 x <- 1:5
 y <- 6:10
@@ -101,7 +101,7 @@ View(survey)
 str(survey)
 
 ```
-#**Functions with Chicken Weight**
+# **Functions with Chicken Weight**
 ```{r functions with ChicWeight}
 
 head(ChickWeight)
@@ -111,7 +111,7 @@ tail(ChickWeight)
 View(ChickWeight)
 
 ```
-#**Functions with Tooth Growth**
+# **Functions with Tooth Growth**
 ```{r functions with toothgrowth}
 
 summary(ToothGrowth)
@@ -160,4 +160,130 @@ names(survey) [names(survey =="b")] <- "years"
 
 View(survey)
 
+```
+# **Slicing Dataframes**
+```{r slicing dataframes}
+# Give me the rows 1-6 and column 1 of ToothGrowth - first six entries in first column
+
+ToothGrowth [1:6,1]
+
+# Give me rows 1-3 and columns 1 and 3 of ToothGrowth
+
+ToothGrowth [1:3,c(1,3)]
+
+# Give me the 1st row (and all columns) of ToothGrowth
+
+ToothGrowth [1,]
+
+# Give me the 2nd column (and all rows) of ToothGrowth
+
+ToothGrowth [,2]
+
+##Logical Subsetting 
+
+# Create a new df with only the rows of ToothGrowth
+#  where supp equals VC
+
+ToothGrowth_VC <- ToothGrowth [ ToothGrowth$supp=="VC",]
+
+View(ToothGrowth_VC)
+
+# Create a new df with only the rows of ToothGrowth
+#  where supp equals OJ and dose < 1
+
+ToothGrowth_OJ_a <- ToothGrowth [ToothGrowth$supp== "OJ" & ToothGrowth$dose<1,]
+
+View(ToothGrowth_OJ_a)
+
+# Get rows of ToothGrowth where len < 20 AND supp == "OJ" AND dose >= 1- using subset
+
+subset(x=ToothGrowth, 
+       subset= len<20 & supp== "OJ" & dose >=1)
+
+# Get rows of ToothGrowth where len > 30 AND supp == "VC", but only return the len and dose columns
+
+
+subset(x=ToothGrowth,
+       subset= len>30 & supp == "VC",
+       select = c("len", "dose"))
+
+```
+#**Slicing and Functions 
+
+```{r slicing and functions}
+
+# What is the mean tooth length of Guinea pigs given OJ?
+
+OJ <- subset(x=ToothGrowth,
+             subset= ToothGrowth$supp=="OJ")
+
+mean(OJ$len)
+
+OJ <- ToothGrowth [ToothGrowth$supp=="OJ",]
+
+View(OJ)
+mean(OJ$len)
+
+mean(ToothGrowth$len[ToothGrowth$supp =="OJ"])
+
+health <- data.frame("age" = c(32, 24, 43, 19, 43),
+                     "height" = c(1.75, 1.65, 1.50, 1.92, 1.80),
+                     "weight" = c(70, 65, 62, 79, 85))
+View(health)
+
+#calculate BMI weight/height^2
+
+health$weight/health$height^2
+
+# with() saves time 
+
+with(health, weight/height^2)
+```
+# **Test your might** 
+```{r test}
+
+Superheros <- data.frame(name= c("Astrid", "Lea","Sarina", "Remon", "Letizia", "Babice", "Jonas", "Wendy", "Niveditha", "Gioia"), sex= c("f","f","f","m","f","f","m","f","f", "f"),
+           age= c( 30,25,25,29,22,22,35,19,32,21), 
+           superhero=c("batman", "superman", "batman", "spiderman", "batman", "antman", "batman", "superman", "maggott", "superman"), 
+           tattoos= c(11,15,12,5,65,3,9,13,900,0)
+      )
+Superheros
+
+#1 median age 
+
+median(Superheros$age)
+
+#2 mean age female or male 
+
+mean(Superheros$age [Superheros$sex == "f"])
+mean(Superheros$age [Superheros$sex == "m"])
+
+#3 highest number of tattoos in a male 
+
+max(Superheros$tattoos [Superheros$sex== "m"])
+
+#4  percent pirates under 25 that are female 
+with (Superheros, mean(sex [age <25] == "f"))
+
+#5 percentage of female pirates that are under the age of 25
+
+with (Superheros, mean(age [sex == "f"] <25))
+
+# 6 add new column tattoos.per.year (tattoos/year)
+
+Superheros$tattoos.per.year <- with(Superheros, tattoos/age)
+
+view(Superheros)
+
+#7 who had the the most tattoos per year 
+
+Superheros$name[Superheros$tattoos.per.year == max(Superheros$tattoos.per.year)]
+
+#8 Female pirates whos favorite superhero is Superman
+
+Superheros$name[Superheros$superhero=="superman" & Superheros$sex== "f"]
+
+#9 median number of tattoos over 20 whos favorite is spiderman
+
+with(Superheros,median(tattoos[age>20 & superhero=="spiderman"]))
 ```
