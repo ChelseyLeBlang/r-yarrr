@@ -1,0 +1,43 @@
+---
+title: "WD Saving Opening"
+author: "Chelsey"
+date: "7/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r working directory}
+
+getwd()
+
+ls()
+
+```
+```{r saving data}
+
+# Create some objects that we'll save later
+study1.df <- data.frame(id = 1:5, 
+                        sex = c("m", "m", "f", "f", "m"), 
+                        score = c(51, 20, 67, 52, 42))
+
+score.by.sex <- aggregate(score ~ sex, 
+                          FUN = mean, 
+                          data = study1.df)
+
+study1.htest <- t.test(score ~ sex, 
+                       data = study1.df)
+
+# Save two objects as a new .RData file
+#   in the data folder of my current working directory
+save(study1.df, score.by.sex, study1.htest,
+     file = "data/study1.RData")
+
+# Save my workspace to complete_image.RData in th,e
+#  data folder of my working directory
+save.image(file = "data/projectimage.RData")
+
+# Load objects in study1.RData into my workspace
+load(file = "data/study1.RData")
+```
