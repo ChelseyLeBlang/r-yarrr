@@ -1,0 +1,129 @@
+---
+title: "Dataframe Manipulation"
+author: "Chelsey"
+date: "7/12/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# **Intro to Advanced Data manipulation** 
+```{r dataframe manipulation}
+
+exam <- data.frame(
+  id = 1:5,
+  q1 = c(1, 5, 2, 3, 2),
+  q2 = c(8, 10, 9, 8, 7),
+  q3 = c(3, 7, 4, 6, 4))
+
+
+demographics <- data.frame(
+  id = 1:5,
+  sex = c("f", "m", "f", "f", "m"),
+  age = c(25, 22, 24, 19, 23))
+
+#Combine Exam and demographics
+
+combined <- merge(x=exam,
+                  y=demographics,
+                  by="id")
+
+combined
+
+#mean q1 score by sex 
+
+aggregate(formula= q1~sex,
+          data=combined, 
+          FUN=mean)
+
+#median q3 score by sex and older than 20
+
+aggregate(formula= q3~sex, 
+          data= combined,
+          subset= age> 20,
+          FUN=median
+      )
+
+#summary by stats using dyplr 
+
+library(tidyverse)
+
+combined %>% 
+  group_by(sex)%>%
+  summarise(
+    q1mean= mean(q1),
+    q2mean= mean(q2),
+    q3mean= mean(q3),
+    agemean=mean(age),
+    N= n())
+  )
+```
+# **Order** 
+```{r ordering}
+library(yarrr
+        )
+pirate_height <- pirates[order(pirates$height),]
+
+pirate_height
+
+pirate_height_decreasing <-pirates[order(pirates$height, decreasing=TRUE),]
+
+pirate_height_decreasing
+
+#by sex and height 
+pirate_sex_height <- pirates[order(pirates$sex,pirates$height),]
+
+pirate_sex_height
+
+```
+# **Merging**
+```{r merging}
+risk.survey <- data.frame(
+  "participant" = c(1, 2, 3, 4, 5),
+  "risk.score" = c(3, 4, 5, 3, 1))
+
+happiness.survey <- data.frame(
+  "participant" = c(4, 2, 5, 1, 3),
+  "happiness.score" = c(20, 40, 50, 90, 53))
+
+risk_happiness <- merge(x=risk.survey,
+                        y=happiness.survey,
+                        by= "participant",
+                        all= TRUE)
+
+risk_happiness
+
+```
+# **Aggregate**
+```{r aggregate}
+
+# General structure of aggregate()
+aggregate(formula = dv ~ iv, # dv is the data, iv is the group 
+          FUN = fun, # The function you want to apply
+          data = df) # The dataframe object containing dv and iv
+
+#mean weight for each diet using ChickWeight
+
+ diet_weight <- aggregate( formula=weight~Diet,
+            FUN=mean,
+            data=ChickWeight)
+ 
+ diet_weight
+
+ #  But only when chicks are less than 10 weeks old
+ 
+ diet_weight_10wks <- aggregate( formula=weight~Diet,
+            FUN=mean,
+            data=ChickWeight,
+            subset= Time<10)
+ 
+ diet_weight_10wks
+ 
+ diet_weight_time <- aggregate( formula=weight~Diet + Time,
+            FUN=mean,
+            data=ChickWeight,
+            subset= Time %in% c(0,2,4))
+ diet_weight_time
+
+```
