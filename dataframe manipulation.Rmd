@@ -127,3 +127,101 @@ aggregate(formula = dv ~ iv, # dv is the data, iv is the group
  diet_weight_time
 
 ```
+# **Dyplr**
+```{r dyplr}
+
+library(tidyverse)
+library(yarrr)
+
+pirate_agg <- pirates %>%
+  filter(headband=="yes") %>%
+  group_by(sex,college) %>%
+  summarise( 
+    mean_age= mean(age),
+    tattoo_med= median(tattoos),
+    n= n())
+
+pirate_agg
+
+
+not_horror <- movies %>%
+  filter(genre != "Horror" & time > 50) %>%
+  group_by(rating,sequel) %>%
+  summarise(
+    frequencey= n(),
+    budgent.mean= mean(budget, na.rm=T),
+    revenue.mean= mean(revenue.all),
+    billion.p= mean(revenue.all>1000)
+  )
+
+not_horror
+
+```
+# ** Other functions** 
+```{r other functions}
+##Means 
+
+exam <- data.frame("q1" = c(1, 0, 0, 0, 0),
+                   "q2" = c(1, 0, 1, 1, 0),
+                   "q3" = c(1, 0, 1, 0, 0),
+                   "q4" = c(1, 1, 1, 1, 1),
+                   "q5" = c(1, 0, 0, 1, 1))
+
+rowMeans(exam)
+colMeans(exam)
+
+#Apply
+
+with(movies, tapply(X = time,        # DV is time
+                    INDEX = genre,   # IV is genre
+                    FUN = mean,      # function is mean
+                    na.rm = TRUE))   # Ignore missing
+```
+# **Test Your Might**
+
+```{r Test}
+drinks <- read.table(file= "https://raw.githubusercontent.com/ndphillips/ThePiratesGuideToR/master/data/caffeinestudy.txt")
+
+drinks
+
+drinks %>%
+  group_by(gender) %>%
+  summarise(
+    mean_age= mean(age)
+  )
+
+drinks %>%
+  group_by(drink) %>%
+  summarise(
+    mean_age= mean(age)
+  )
+
+drinks %>%
+  group_by(gender,drink) %>%
+  summarise(
+    mean_age= mean(age)
+  )
+
+drinks %>%
+  group_by(age) %>%
+  summarise(
+    med_score= median(score)
+  )
+
+drinks %>%
+  filter(gender=="male") %>%
+  summarise(
+    max_age= max(age)
+  )
+
+drinks_summary <- drinks %>%
+  group_by(drink) %>%
+  summarise(
+    mean_score= mean(score),
+    median_score= median(score),
+    max_score= max(score),
+    std_score= sd(score)
+  )
+
+drinks_summary
+```
