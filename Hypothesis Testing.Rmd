@@ -1,0 +1,232 @@
+---
+title: "Hypothesis Testing"
+author: "Chelsey"
+date: "7/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# **Introduction to Hypothesis Testing** 
+```{r intro}
+
+library(yarrr) # Load yarrr to get the pirates data
+
+# 1 sample t-test
+# Are pirate ages different than 30 on average?
+t.test(x = pirates$age, 
+       mu = 30)
+
+# 2 sample t-test
+# Do females and males have different numbers of  tattoos?
+sex.ttest <- t.test(formula = tattoos ~ sex,
+                    data = pirates, 
+                    subset = sex %in% c("male", "female"))
+sex.ttest 
+
+sex.ttest$statistic
+sex.ttest$p.value
+sex.ttest$conf.int
+
+# Correlation test
+# Is there a relationship between age and height?
+ cor.test(formula = ~ age + height,
+          data = pirates)
+ 
+ # Chi-Square test
+# Is there a relationship between college and favorite pirate?
+chisq.test(x = pirates$college,
+           y = pirates$favorite.pirate)
+
+# Body piercing data
+american.bp <- c(3, 5, 2, 1, 4, 4, 6, 3, 5, 4)
+european.bp <- c(6, 5, 7, 7, 6, 3, 4, 6, 5, 4)
+
+bp.survey <- data.frame("bp" = c(american.bp, european.bp),
+                        "group" = rep(c("American", "European"), each = 10),
+                         stringsAsFactors = FALSE)
+
+bp.survey
+
+yarrr::pirateplot(bp ~ group,
+                 data = bp.survey,
+                 main = "Body Piercing Survey",
+                 ylab = "Number of Body Piercings",
+                 xlab = "Group", 
+                 theme = 2, point.o = .8, cap.beans = TRUE)
+
+# Pring descriptive statistics of the piercing data
+summary(american.bp)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     1.0     3.0     4.0     3.7     4.8     6.0
+summary(european.bp)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##     3.0     4.2     5.5     5.3     6.0     7.0
+
+bp.test <- t.test(x = american.bp,
+                  y = european.bp,
+                  alternative = "two.sided")
+
+bp.test
+bp.test$p.value
+```
+# **T Tests**
+```{r ttest}
+#One Sample 
+tattoo.ttest <- t.test(x = pirates$tattoos,  # Vector of data
+                       mu = 5)               # Null: Mean is 5
+tattoo.ttest
+
+tattoo.ttest <- t.test(x = pirates$tattoos,
+                       mu = 9.5)  # Null: Mean is 9.4
+tattoo.ttest
+
+#2 Sample 
+tat.patch.htest <- t.test(formula = tattoos ~ eyepatch,
+                          data = pirates)
+
+tat.patch.htest
+names(tat.patch.htest)
+
+tat.patch.htest$conf.int
+
+# Will return an error because there are more than
+#  2 levels of the age IV
+
+
+
+tatage.htest <- t.test(formula = tattoos ~ age,
+                       data = pirates,
+                       subset = age %in% c(29, 30))  # Compare age of 29 to 
+
+tatage.htest
+
+# Is there an effect of college on # of tattoos
+#  only for female pirates?
+
+college.tat <- t.test(formula = tattoos ~ college,
+       data = pirates)
+
+college.tat
+
+# Is there an effect of college on # of tattoos
+#  only for female pirates?
+
+f.college.tat <- t.test(formula = tattoos ~ college,
+       data = pirates,
+       subset = sex == "female")
+
+f.college.tat
+
+```
+# **Correlation Analysis**
+```{r correlations}
+
+# Method 1: Formula notation
+age.parrots.ctest <- cor.test(formula = ~ age + parrots,
+                             data = pirates)
+
+age.parrots.ctest
+
+# Method 2: Vector notation
+age.parrots.ctest <- cor.test(x = pirates$age,
+                             y = pirates$parrots)
+
+age.parrots.ctest
+
+# Is there a correlation between age and 
+#  number parrots ONLY for female pirates?
+
+female.age.parrots <- cor.test(formula= ~age + parrots,
+                               data= pirates,
+                               subset= sex=="female")
+
+female.age.parrots
+
+```
+# **Chi Square**
+
+```{r chi square}
+#one sample test
+
+#Frequency table for pirates in each college
+
+table(pirates$college)
+
+chisq.test(x=table(pirates$college))
+
+#Do pirates that wear eyepatches have come from different colleges than those that do not wear eyepatches?
+
+eye.college <- table(pirates$eyepatch, pirates$college)
+
+chisq.test(x=table(pirates$eyepatch, pirates$college))
+
+```
+# **APA**
+```{r apa}
+
+yarrr::apa(female.age.parrots)
+
+```
+# **Test**
+```{r test}
+
+# 1 Do male pirates have significantly longer beards than female pirates?
+
+sex.beards <- t.test(formula= beard.length ~ sex,
+                     data= pirates,
+                     subset = sex %in% c("male","female"))
+
+sex.beards
+
+#2 Are pirates whose favorite pixar movie is Up more or less likely to wear an eye patch than those whose favorite pixar movie is Inside Out?
+
+#chi square test
+
+movie.subset.df <- subset(pirates, fav.pixar %in% c("Up","Inside Out"))
+
+table(movie.subset.df$fav.pixar, movie.subset.df$eyepatch)
+
+pixar.chisq <-  chisq.test(table(movie.subset.df$fav.pixar, movie.subset.df$eyepatch))
+
+pixar.chisq
+
+apa(pixar.chisq)
+
+#3 Do longer movies have significantly higher budgets than shorter movies?
+
+length.budget.cor <- cor.test(formula= ~budget + time,
+                              data= movies)
+
+length.budget.cor
+
+#4 Do R rated movies earn significantly more money than PG-13 movies?
+
+movie.money <- t.test(formula= revenue.all~rating,
+                      data= movies,
+                      subset= rating %in% c("R", "PG-13"))
+
+movie.money
+
+apa(movie.money)
+
+#5 Are certain movie genres significantly more common than others in the movies dataset?
+
+#chi square
+
+movie.genre.tab <- table(movies$genre)
+
+chisq.test(movie.genre.tab)
+
+movie.genre.tab
+
+#6 Do sequels and non-sequels differ in their ratings? 
+
+#chi square
+movie.seq.tab <- table(movies$sequel)
+
+chisq.test(movie.seq.tab)
+
+
+```
