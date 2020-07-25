@@ -1,0 +1,46 @@
+---
+title: "ANOVA"
+author: "Chelsey"
+date: "7/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# ** ANOVA Intro** 
+
+```{r Intro}
+library(yarrr)
+pirateplot(formula = time ~ cleaner + type,
+           data = poopdeck,
+           ylim = c(0, 150),
+           xlab = "Cleaner",
+           ylab = "Cleaning Time (minutes)",
+           main = "poopdeck data",
+           back.col = gray(.97), 
+           cap.beans = TRUE, 
+           theme = 2)
+
+```
+# **One Way ANOVA**
+```{r one way ANOVA}
+yarrr::pirateplot(time ~ cleaner, 
+                  data = poopdeck, 
+                  theme = 2, 
+                  cap.beans = TRUE,
+                  main = "formula = time ~ cleaner")
+
+clean.time.aov <- aov(formula= time ~ cleaner,
+                      data= poopdeck)
+
+summary (clean.time.aov)
+
+TukeyHSD(clean.time.aov)
+
+#install.packages("DescTools")
+library(DescTools)
+
+PostHocTest(aov(time~cleaner, data = poopdeck), method = "bonferroni")
+```
