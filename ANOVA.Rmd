@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# ** ANOVA Intro** 
+# **ANOVA Intro** 
 
 ```{r Intro}
 library(yarrr)
@@ -43,4 +43,97 @@ TukeyHSD(clean.time.aov)
 library(DescTools)
 
 PostHocTest(aov(time~cleaner, data = poopdeck), method = "bonferroni")
+
+poop.lm <- lm(formula = time ~ cleaner, data= poopdeck)
+summary (poop.lm)
+
+```
+# **Two-Way ANOVA**
+```{r two way}
+
+clean.type.aov <- aov(formula=time~cleaner + type, data=poopdeck)
+
+summary(clean.type.aov)
+
+TukeyHSD(clean.type.aov)
+
+PostHocTest(aov(formula=time~cleaner + type, data=poopdeck), method= "bonferroni")
+
+#interaction
+
+clean.type.int.aov <- aov(formula= time ~ cleaner * type, data=poopdeck)
+
+summary(clean.type.int.aov)
+
+clean.type.int.reg <- lm(formula= time ~ cleaner * type, data=poopdeck)
+
+summary(clean.type.int.reg)
+
+TukeyHSD(clean.type.int.aov)
+
+```
+# **Type I II III ANOVA**
+```{r type ANOVAS}
+
+time.lm <- lm(formula = time ~ type + cleaner,
+              data = poopdeck)
+
+# Type I ANOVA - aov()
+time.I.aov <- aov(time.lm)
+
+summary(time.lm)
+
+# Type II ANOVA - Anova(type = 2)
+time.II.aov <- car::Anova(time.lm, type = 2)
+
+summary (time.II.aov)
+# Type III ANOVA - Anova(type = 3)
+time.III.aov <- car::Anova(time.lm, type = 3)
+
+time.III.aov
+
+
+```
+# **Repeated Measures ANOVA**
+```{r repeated measures anova}
+
+#install.packages("lme4")
+
+library(lme4)
+
+my.mod <- lmer(formula = time ~ cleaner + type + (1|day),
+                data = poopdeck)
+
+my.mod
+
+```
+# **Test**
+
+```{r test}
+
+#1 Is there a significant relationship between a pirate’s favorite pixar movie and the number of tattoos (s)he has? Conduct an appropriate ANOVA with fav.pixar as the independent variable, and tattoos as the dependent variable. If there is a significant relationship, conduct a post-hoc test to determine which levels of the independent variable(s) differ
+
+View(pirates)
+
+movie.tat <- aov(formula= tattoos ~ fav.pixar, data=pirates)
+
+summary(movie.tat)
+
+#2 s there a significant relationship between a pirate’s favorite pirate and how many tattoos (s)he has? Conduct an appropriate ANOVA with favorite.pirate as the independent variable, and tattoos as the dependent variable. If there is a significant relationship, conduct a post-hoc test to determine which levels of the independent variable(s) differ.
+
+pirate.tat <- aov (formula= tattoos~ favorite.pirate, data=pirates)
+
+summary(pirate.tat)
+
+#3 Now, repeat your analysis from the previous two questions, but include both independent variables fav.pixar and favorite.pirate in the ANOVA. Do your conclusions differ when you include both variables
+
+pirate.movie.tat <- aov (formula= tattoos~ favorite.pirate + fav.pixar, data=pirates)
+
+summary(pirate.movie.tat)
+
+#4 interaction? 
+
+pirate.movie.tat <- aov (formula= tattoos~ favorite.pirate * fav.pixar, data=pirates)
+
+summary(pirate.movie.tat)
 ```
