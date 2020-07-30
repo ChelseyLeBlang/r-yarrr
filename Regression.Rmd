@@ -121,7 +121,116 @@ head(diamonds[c("weight", "clarity", "color", "value", "pred.g190")])
 # Predict the 'probability' that the 3 new diamonds 
 #  will have a value greater than 190
 
-predict(object = diamond.glm,
+diamond.logit <- predict(object = diamond.glm,
         newdata = diamonds.new)
+
+prob.predictions <- 1 / (1 + exp(-diamond.logit))
+
+prob.predictions
+
+## Add reg line to plot 
+
+plot(x = diamonds$weight,
+     y = diamonds$value,
+     xlab = "Weight",
+     ylab = "Value",
+     main = "Adding a regression line with abline()"
+     )
+
+diamond.reg <- lm(formula= value~weight, 
+                  data= diamonds)
+
+abline(diamond.reg,
+       col = "red", lwd= 2)
+
+## Transforming skewed variables before a standard regression 
+
+# The distribution of movie revenus is highly
+#  skewed.
+hist(movies$revenue.all, 
+     main = "Movie revenue\nBefore log-transformation",
+     xlab="revenue")
+
+# Create a new log-transformed version of movie revenue
+movies$revenue.all.log <- log(movies$revenue.all)
+
+hist(movies$revenue.all.log, 
+     main = "Log-transformed Movie revenue")
+
+```
+# ** Test** 
+
+```{r test}
+head(auction)
+
+auction$price.gt.3500 <- auction$price>3500 
+
+head(auction)
+
+#1 The column jbb is the “Jack’s Blue Book” value of a ship. Create a regression object called jbb.cannon.lm predicting the JBB value of ships based on the number of cannons it has. Based on your result, how much value does each additional cannon bring to a ship?
+
+
+jbb.cannon.lm <- lm(formula=jbb~cannons, data=auction)
+
+summary(jbb.cannon.lm)
+
+# 2 Repeat your previous regression, but do two separate regressions: one on modern ships and one on classic ships. Is there relationship between cannons and JBB the same for both types of ships?
+
+modern.jbb.cannon.lm <- lm(formula=jbb~cannons, data= subset(auction, style == "modern"))
+
+summary(modern.jbb.cannon.lm)$coefficients
+
+classic.jbb.cannon.lm <- lm(formula=jbb~cannons, data= subset(auction, style == "classic"))
+  
+summary(classic.jbb.cannon.lm)$coefficients      
+
+# 3 Is there a significant interaction between a ship’s style and its age on its JBB value? If so, how do you interpret the interaction?
+
+style.age.jbb.lm <- lm(formula= jbb~style*age, data=auction)
+
+summary(style.age.jbb.lm)$coefficients 
+
+#4 Create a regression object called predicting the JBB value of ships based on cannons, rooms, age, condition, color, and style. Which aspects of a ship significantly affect its JBB value?
+
+jbb.all.lm <- lm(formula= jbb ~ cannons + rooms + age + condition + color + style, data=auction)
+
+summary(jbb.all.lm)
+
+#5 Create a regression object called predicting the actual selling value of ships based on cannons, rooms, age, condition, color, and style. Based on the results, does the JBB do a good job of capturing the effect of each variable on a ship’s selling price?
+
+price.lm <- lm (formula= price ~ cannons + rooms + age+ condition+ color+ style, data=auction)
+
+summary(price.lm)
+
+#6 Repeat your previous regression analysis, but instead of using the price as the dependent variable, use the binary variable price.gt.3500 indicating whether or not the ship had a selling price greater than 3500. Call the new regression object price.all.blr. Make sure to use the appropriate regression function!!.
+
+price.all.blr <- glm (formula= price.gt.3500 ~ cannons + rooms + age+ condition+ color+ style, data=auction, family=binomial)
+
+summary(price.all.blr)
+
+# 7 Using price.all.lm, predict the selling price of the 3 new ships
+
+new.ships <- data.frame(cannons = c(12, 8, 32),
+                  rooms = c(34, 26, 65),
+                  age = c(43, 54, 100),
+                  condition = c(7, 3, 5),
+                  color = c("black", "black", "red"),
+                  style = c("classic", "modern", "modern"),
+                  stringsAsFactors = FALSE)
+
+
+predict(price.all.blr, newdata = new.ships)
+
+#8 Using price.all.blr, predict the probability that the three new ships will have a selling price greater than 3500.
+
+# Calculate logit of predictions
+log.pred <- predict(object = price.all.blr,
+                    newdata = new.ships
+                    )
+log.pred
+# Convert logits to probabilities
+1 / (1 + exp(-log.pred))
+##       1       2       3 
+## 0.89038 0.00051 1.00000
 
 ```
